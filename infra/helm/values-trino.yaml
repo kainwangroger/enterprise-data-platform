@@ -1,0 +1,26 @@
+# Default Helm Chart Values for Apache Trino in Enterprise Platform
+server:
+  workers: 5
+  node.environment: production
+  log.level: INFO
+
+coordinator:
+  jvm:
+    maxHeapSize: "8G"
+    gcMethod: "-XX:+UseG1GC"
+
+worker:
+  jvm:
+    maxHeapSize: "16G"
+    gcMethod: "-XX:+UseG1GC"
+
+additionalCatalogs:
+  iceberg: |
+    connector.name=iceberg
+    iceberg.catalog.type=rest
+    iceberg.rest-catalog.uri=http://nessie-catalog-service:19120/api/v1
+    fs.hadoop.enabled=false
+    hive.s3.aws-access-key=admin
+    hive.s3.aws-secret-key=supersecretpassword
+    hive.s3.endpoint=http://minio-service:9000
+    hive.s3.path-style-access=true
